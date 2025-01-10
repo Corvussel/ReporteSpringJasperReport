@@ -1,0 +1,101 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Productos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--Cdn de alphine-->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <!--cdn de font awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body class="bg-slate-50" x-data="{ open: false }">
+
+    <div class="fixed inset-0 flex items-center justify-center">
+        <div class="bg-white shadow-lg rounded-3xl p-7 h-[560px] lg:w-[800px] relative">
+            <h2 class="text-2xl font-bold text-center">Productos</h2>
+            <div class="overflow-auto max-h-[500px]">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3">ID</th>
+                            <th class="px-6 py-3">Nombre</th>
+                            <th class="px-6 py-3">Precio</th>
+                            <th class="px-6 py-3">Stock</th>
+                            <th class="px-6 py-3">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="producto : ${productos}" class="bg-white border-b hover:bg-gray-50 ">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                <span th:text="${producto.id}"></span>
+                            </th>
+                            <td class="px-6 py-4">
+                                <span th:text="${producto.nombre}"></span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span th:text="${producto.precio}"></span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span th:text="${producto.stock}"></span>
+                            </td>
+                            <td class="px-6 py-4 space-x-2">
+                                <a th:href="@{'/edit/' + ${producto.id}}"
+                                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <a th:href="@{'/delete/' + ${producto.id}}"
+                                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="absolute bottom-4 right-4">
+                <button x-on:click="open = true"
+                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Agregar Producto</button>
+            </div>
+        </div>
+    </div>
+    <!--Modal-->
+    <div x-show="open" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white shadow-lg rounded-3xl p-7 h-[560px] lg:w-[600px]">
+            <div class="flex justify-end">
+                <button x-on:click="open = false"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <h2 class="text-2xl font-bold text-center">Agregar Producto</h2>
+            <form action="/save" method="post">
+                <div class="mb-4">
+                    <label for="nombre" class="block text-gray-700 font-bold mb-2">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="precio" class="block text-gray-700 font-bold mb-2">Precio:</label>
+                    <input type="number" id="precio" name="precio"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="stock" class="block text-gray-700 font-bold mb-2">Stock:</label>
+                    <input type="number" id="stock" name="stock"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+</body>
+
+</html>
